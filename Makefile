@@ -13,21 +13,25 @@
 CC				=	gcc
 NAME			=	fdf
 FLAGS			=	-Wall -Werror -Wextra -g
-LIB_PATH		=	libft/
-LIB				=	$(LIB_PATH)libft.a
-LIB_LINK		=	-L $(LIB_PATH) -lft
-INCLUDES		=	-I ./includes -I ./libft/includes
+LIBFT_PATH		=	libft/
+LIBFT			=	$(LIBFT_PATH)libft.a
+MLX_PATH		=	mlx/
+MLX				=	$(MLX_PATH)libmlx.a
+INCLUDES		=	-I ./includes -I ./libft/includes -I ./mlx
 SRCS			=	srcs/main.c
 
 OBJS			=	$(SRCS:srcs/%.c=obj/%.o)
 
 all: obj $(NAME)
 
-$(LIB):
-	@make -C $(LIB_PATH)
+$(LIBFT):
+	@make -C $(LIBFT_PATH)
 
-$(NAME): $(OBJS) $(LIB)
-	$(CC) $(FLAGS) -o $@ $^ -lncurses -lm
+$(MLX):
+	@make -C $(MLX_PATH)
+
+$(NAME): $(OBJS) $(LIBFT) $(MLX)
+	$(CC) $(FLAGS) -o $@ $^ -lXext -lX11 -lm -lbsd
 
 obj:
 	@mkdir -p obj
@@ -41,7 +45,8 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
-	@make -C $(LIB_PATH) fclean
+	@make -C $(LIBFT_PATH) fclean
+	@make -C $(MLX_PATH) fclean
 
 re: fclean all
 
