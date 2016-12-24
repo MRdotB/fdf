@@ -17,4 +17,22 @@
 # include "mlx.h"
 # include "mlx_int.h"
 
+
+# define WIDTH 400
+# define HEIGHT 400
+
+struct				s_fdf_data
+{
+	void			*mlx;
+	char			*data;
+	int				bpp;
+	int				sl;
+	int				endian;
+	int				type;
+};
+
+typedef struct s_fdf_data	t_fdf_data;
+
+void		drawline(t_fdf_data fdf_data, int x0, int y0, int x1, int y1);
+
 #endif
