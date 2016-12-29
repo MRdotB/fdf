@@ -11,10 +11,24 @@
 /* ************************************************************************** */
 
 #include "fdf.h"
-#include <stdio.h>
 
-int	main(void)
+void	display_p(t_dlist *el)
 {
+	printf("[ %d, %d, %d ]\n", (int)CONTENT(x), (int)CONTENT(y), (int)CONTENT(z));
+}
+
+int	main(int ac, char **av)
+{
+	int fd;
+	t_dlist	*map;
+
+	if (ac == 2)
+	{
+		fd = open(av[1], O_RDONLY);
+		map = parse_map(fd);
+		ft_dlstiter(map, display_p);
+	}
+	/*
 	t_fdf_data fdf_data;
 	void	*win1;
 	void	*img;
@@ -35,10 +49,11 @@ int	main(void)
 		exit(0);
 	}
 	fdf_data.data = mlx_get_data_addr(img, &(fdf_data.bpp), &(fdf_data.sl), &(fdf_data.endian));
-	drawline(fdf_data,0,0,400,400);
+	drawline(fdf_data,0,100,400,400);
 	drawline(fdf_data,0,0,10,100);
 	mlx_put_image_to_window(fdf_data.mlx, win1, img, 0, 0);
 
 	sleep(10);
+	*/
 	return (0);
 }

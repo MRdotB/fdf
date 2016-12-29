@@ -18,7 +18,7 @@ LIBFT			=	$(LIBFT_PATH)libft.a
 MLX_PATH		=	mlx/
 MLX				=	$(MLX_PATH)libmlx.a
 INCLUDES		=	-I ./includes -I ./libft/includes -I ./mlx
-SRCS			=	srcs/main.c srcs/drawline.c
+SRCS			=	srcs/main.c srcs/drawline.c srcs/parse_map.c
 
 OBJS			=	$(SRCS:srcs/%.c=obj/%.o)
 

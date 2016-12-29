@@ -17,9 +17,10 @@
 # include "mlx.h"
 # include "mlx_int.h"
 
-
 # define WIDTH 400
 # define HEIGHT 400
+
+# define CONTENT(p) (((t_vector*)(el->content))->p)
 
 struct				s_fdf_data
 {
@@ -34,5 +35,6 @@ struct				s_fdf_data
 typedef struct s_fdf_data	t_fdf_data;
 
 void		drawline(t_fdf_data fdf_data, int x0, int y0, int x1, int y1);
+t_dlist		*parse_map(int fd);
 
 #endif
