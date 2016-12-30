@@ -19,6 +19,7 @@ void	display_p(t_dlist *el)
 
 int	main(int ac, char **av)
 {
+
 	int fd;
 	t_dlist	*map;
 
@@ -28,7 +29,6 @@ int	main(int ac, char **av)
 		map = parse_map(fd);
 		ft_dlstiter(map, display_p);
 	}
-	/*
 	t_fdf_data fdf_data;
 	void	*win1;
 	void	*img;
@@ -54,6 +54,5 @@ int	main(int ac, char **av)
 	mlx_put_image_to_window(fdf_data.mlx, win1, img, 0, 0);
 
 	sleep(10);
-	*/
 	return (0);
 }
