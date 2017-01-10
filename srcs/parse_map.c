@@ -1,7 +1,7 @@
 #include "fdf.h"
 #include <stdio.h>
 
-static void		parse_map_line(t_dlist **head, char	*line)
+static void		parse_map_line(t_fdf_map *fdf, char *line)
 {
 	char		**split;
 	char		**split_ptr;
@@ -14,9 +14,9 @@ static void		parse_map_line(t_dlist **head, char	*line)
 	split_ptr = split;
 	while (*split)
 	{
-//		printf("[ %d, %d, %d ]\n", x, y, ft_atoi(*split));
-		el = vector_create(x, y, ft_atoi(*split));
-		ft_dlstpush(head, ft_dlstnew((void*)el, sizeof(el)));
+		//printf("[ %d, %d, %d ]\n", x, y, ft_atoi(*split));
+		el = vector_create(x, y, ft_atoi(*split) / 2);
+		fdf->map[x + y * fdf->max_x] = el;
 		x++;
 		free(*split);
 		split++;
@@ -24,28 +24,50 @@ static void		parse_map_line(t_dlist **head, char	*line)
 	free(split_ptr);
 	y++;
 }
-
-static t_dlist	*parse_map_str(char *map)
+static t_fdf_map	*init_fdf_map(char **lines)
 {
-	t_dlist	*head;
-	char	**lines;
-	char	**lines_ptr;
+	t_fdf_map	*fdf;
+	char		**split;
+	int			x;
+	int			y;
 
-	head = NULL;
+	if (!(fdf = (t_fdf_map*)malloc(sizeof(t_fdf_map))))
+		return (NULL);
+	x = 0;
+	y = 0;
+	split = ft_strsplitstr(*lines, " ");
+	while(split[x])
+		free(split[x++]);
+	free(split);
+	while(lines[y])
+		y++;
+	fdf->map = (t_vector**)malloc(sizeof(t_vector) * x * y);
+	fdf->max_x = x;
+	fdf->max_y = y;
+	return (fdf);
+}
+
+static t_fdf_map	*parse_map_str(char *map)
+{
+	t_fdf_map	*fdf;
+	char		**lines;
+	char		**lines_ptr;
+
 	lines = ft_strsplitstr(map, "\n\0");
+	fdf = init_fdf_map(lines);
 	lines_ptr = lines;
 	while(*lines)
 	{
-		parse_map_line(&head, *lines);
+		parse_map_line(fdf, *lines);
 		free(*lines);
 		lines++;
 	}
 	free(lines_ptr);
 	free(map);
-	return (head);
+	return (fdf);
 }
 
-t_dlist			*parse_map(int fd)
+t_fdf_map			*parse_map(int fd)
 {
 	int		ret;
 	char	tmp[2048];
